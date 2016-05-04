@@ -22,10 +22,18 @@ RUN apt-get install -y nginx
 
 RUN nginx -v
 
-# Define working directory.
-#WORKDIR /etc/nginx
+COPY conf/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY conf/nginx/magento.conf /etc/nginx/magento.conf
 
-#VOLUME ["/etc/nginx"]
+RUN nginx -t
+
+RUN mkdir -p /var/www/magento/
+RUN chown -Rv www-data:www-data /var/www/magento/
+
+# Define working directory.
+WORKDIR /var/www/magento
+
+VOLUME ["/var/www/magento"]
 
 # Expose ports.
 EXPOSE 80 443
