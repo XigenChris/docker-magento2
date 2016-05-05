@@ -47,7 +47,7 @@ RUN sudo apt-get install -y \
     libjpeg-dev \
     libpng-dev \
     libpspell-dev \
-    libreadline-dev
+    libxslt1-dev
 
 RUN sudo mkdir /usr/local/php7
 
@@ -90,6 +90,7 @@ ENV CONFIGURE_STRING="--prefix=/usr/local/php7 \
 --enable-zip \
 --with-readline \
 --with-curl \
+--with-xsl \
 --enable-fpm \
 --with-fpm-user=www-data \
 --with-fpm-group=www-data"
@@ -120,6 +121,13 @@ RUN update-rc.d php7-fpm defaults
 # Link php and phpize into the /usr/bin/ folder
 RUN ln -s /usr/local/php7/bin/php /usr/bin/
 RUN ln -s /usr/local/php7/bin/phpize /usr/bin/
+
+# Install composer
+RUN cd /tmp && \
+    php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php && \
+    php composer-setup.php --install-dir=/usr/bin/ && \
+    ln -s /usr/bin/composer.phar /usr/bin/composer && \
+    php -r "unlink('composer-setup.php');"
 
 # Define working directory.
 WORKDIR /var/www/magento
