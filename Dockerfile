@@ -2,6 +2,12 @@
 FROM ubuntu:16.04
 MAINTAINER Chris Hilsdon <chrish@xigen.co.uk>
 
+# Fix for running on Macs
+RUN usermod -u 1000 www-data
+
+# Add magento to path
+ENV PATH=$PATH:/var/www/magento/bin/
+
 # dpkg-preconfigure error messages fix
 # http://stackoverflow.com/a/31595470
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
