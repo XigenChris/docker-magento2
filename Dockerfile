@@ -8,6 +8,8 @@ RUN usermod -u 1000 www-data
 # Add magento to path
 ENV PATH=$PATH:/var/www/magento/bin/
 
+ENV PHPV=7.0.7
+
 # dpkg-preconfigure error messages fix
 # http://stackoverflow.com/a/31595470
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
@@ -57,7 +59,7 @@ RUN sudo apt-get install -y \
 
 RUN sudo mkdir /usr/local/php7
 
-RUN git clone -b PHP-7.0.6 --depth=1 https://github.com/php/php-src.git
+RUN git clone -b PHP-$PHPV --depth=1 https://github.com/php/php-src.git
 
 RUN cd php-src && ./buildconf --force
 
