@@ -8,7 +8,7 @@ RUN usermod -u 1000 www-data
 # Add magento to path
 ENV PATH=$PATH:/var/www/magento/bin/
 
-ENV PHPV=7.0.7
+ENV PHPV=7.0.8
 
 # dpkg-preconfigure error messages fix
 # http://stackoverflow.com/a/31595470
@@ -143,7 +143,7 @@ WORKDIR /var/www/magento
 VOLUME ["/var/www/magento"]
 
 # Expose ports.
-EXPOSE 80 443
+EXPOSE 80
 
 # Define default command.
 ENTRYPOINT service nginx restart && service php7-fpm restart && bash;
